@@ -1,0 +1,91 @@
+datasource db {
+  provider = "sqlite"
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model User {
+  id        String    @id @default(uuid())
+  email     String    @unique
+  name      String?
+  password  String
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  projects  Project[]
+}
+
+model Project {
+  id          String     @id @default(uuid())
+  name        String
+  description String?
+  keyword     String
+  topic       String
+  sources     String     // Comma-separated list like "reddit,twitter,news"
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+  userId      String
+  user        User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  datasets    Dataset[]
+  analyses    Analysis[]
+  reports     Report[]
+}
+
+model Dataset {
+  id          String        @id @default(uuid())
+  name        String
+  status      String        // "PENDING", "RUNNING", "COMPLETED", "FAILED"
+  itemCount   Int           @default(0)
+  logs        String?       // Scraping console logs
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+  projectId   String
+  project     Project       @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  items       DatasetItem[]
+  analyses    Analysis[]
+}
+
+model DatasetItem {
+  id        String   @id @default(uuid())
+  title     String
+  content   String
+  source    String   // "reddit", "twitter", "news"
+  author    String?
+  timestamp DateTime
+  url       String?
+  sentiment String   @default("NEUTRAL") // "POSITIVE", "NEUTRAL", "NEGATIVE"
+  datasetId String
+  dataset   Dataset  @relation(fields: [datasetId], references: [id], onDelete: Cascade)
+}
+
+model Analysis {
+  id                    String   @id @default(uuid())
+  status                String   // "PENDING", "RUNNING", "COMPLETED", "FAILED"
+  sentimentDistribution String   // JSON string of positive/neutral/negative counts
+  topicClusters         String   // JSON string of topics and key terms
+  temporalData          String   // JSON string of timeline counts
+  summary               String?  // Short text summary of the analysis
+  createdAt             DateTime @default(now())
+  updatedAt             DateTime @updatedAt
+  projectId             String
+  project               Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  datasetId             String
+  dataset               Dataset  @relation(fields: [datasetId], references: [id], onDelete: Cascade)
+  reports               Report[]
+}
+
+model Report {
+  id           String   @id @default(uuid())
+  title        String
+  summary      String   // AI-generated summary
+  keyInsights  String   // JSON string of insights (bullet points)
+  conclusions  String   // JSON string of conclusions
+  chartData    String?  // Optional extra helper JSON for custom charts
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  projectId    String
+  project      Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  analysisId   String
+  analysis     Analysis @relation(fields: [analysisId], references: [id], onDelete: Cascade)
+}

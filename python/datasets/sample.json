@@ -1,0 +1,56 @@
+[
+  {
+    "title": "Honnêtement, que pensez-vous d'InsightFlow dans la veille sociale ?",
+    "content": "Je me penche sur InsightFlow depuis peu et cela semble être une révolution pour la veille sociale. Tout le monde dit que cela résout les goulots d'étranglement de scalabilité et d'efficacité. L'utilisez-vous réellement en production ou est-ce juste de l'engouement passager ?",
+    "source": "Reddit",
+    "author": "u/tech_enthusiast99_42",
+    "timestamp": "2026-05-18T12:30:00Z",
+    "url": "https://www.reddit.com/r/sociallistening/comments/mock_123456",
+    "sentiment": "POSITIVE"
+  },
+  {
+    "title": "Pourquoi InsightFlow est complètement surévalué pour les utilisateurs de veille sociale",
+    "content": "Avis impopulaire : InsightFlow n'est pas la solution miracle que tout le monde décrit. La courbe d'apprentissage est immense et le support de la communauté reste très limité. Il est bien préférable de s'en tenir aux flux de travail établis dans la veille sociale.",
+    "source": "Reddit",
+    "author": "u/skepticCoder_88",
+    "timestamp": "2026-05-17T09:15:00Z",
+    "url": "https://www.reddit.com/r/sociallistening/comments/mock_654321",
+    "sentiment": "NEGATIVE"
+  },
+  {
+    "title": "Tweet de @dev_guru_512",
+    "content": "Je viens de lancer mon nouveau projet de veille sociale en utilisant InsightFlow ! L'expérience développeur est incomparable par rapport aux anciens outils. Je le recommande vivement ! 🚀🔥",
+    "source": "Twitter/X",
+    "author": "@dev_guru_512",
+    "timestamp": "2026-05-19T08:00:00Z",
+    "url": "https://x.com/dev_guru_512/status/mock_98765432",
+    "sentiment": "POSITIVE"
+  },
+  {
+    "title": "Tweet de @sysadmin_daily_10",
+    "content": "Est-ce que quelqu'un d'autre rencontre des problèmes de latence élevée lors de l'exécution de InsightFlow dans des tâches de veille sociale ? Je me demande s'il y a une fuite de mémoire dans le dernier correctif. 💻 #coding",
+    "source": "Twitter/X",
+    "author": "@sysadmin_daily_10",
+    "timestamp": "2026-05-18T22:45:00Z",
+    "url": "https://x.com/sysadmin_daily_10/status/mock_56781234",
+    "sentiment": "NEGATIVE"
+  },
+  {
+    "title": "Comment InsightFlow redéfinit l'avenir de la veille sociale",
+    "content": "Dans le cadre d'une transition sectorielle globale, InsightFlow s'est imposé comme la norme de référence pour les opérations modernes de veille sociale. Les experts prévoient un doublement du taux d'adoption d'ici le prochain trimestre, obligeant les acteurs historiques à repenser leurs infrastructures existantes.",
+    "source": "News",
+    "author": "TechCrunch",
+    "timestamp": "2026-05-19T06:12:00Z",
+    "url": "https://www.techcrunch.com/articles/mock_4432",
+    "sentiment": "POSITIVE"
+  },
+  {
+    "title": "Risques de sécurité et vulnérabilités identifiés dans InsightFlow",
+    "content": "Des cabinets de recherche en sécurité ont publié des alertes concernant des failles de configuration dans InsightFlow lorsqu'il est déployé pour la veille sociale. Les administrateurs système sont invités à appliquer immédiatement les derniers correctifs de sécurité afin de limiter les risques d'exécution de code à distance.",
+    "source": "News",
+    "author": "ZDNet",
+    "timestamp": "2026-05-16T15:20:00Z",
+    "url": "https://www.zdnet.com/articles/mock_9921",
+    "sentiment": "NEGATIVE"
+  }
+]
