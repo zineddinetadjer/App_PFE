@@ -34,7 +34,7 @@ const moduleLabels: Record<string, string> = {
 };
 
 export default function AdvancedAnalysisPage() {
-  const [file, setFile] = useState<File | null>(null);
+  const [files, setFiles] = useState<File[]>([]);
   const [result, setResult] = useState<AdvancedResult | null>(null);
   const [logs, setLogs] = useState("");
   const [error, setError] = useState("");
@@ -46,8 +46,8 @@ export default function AdvancedAnalysisPage() {
   }, [result]);
 
   const handleSubmit = async () => {
-    if (!file) {
-      setError("Selectionnez un fichier JSON.");
+    if (files.length === 0) {
+      setError("Sélectionnez au moins un fichier JSON.");
       return;
     }
 
@@ -55,23 +55,25 @@ export default function AdvancedAnalysisPage() {
     setError("");
     setResult(null);
     setLogs("");
-
+    let combinedLogs = "";
+    let lastResult: AdvancedResult | null = null;
     try {
-      const formData = new FormData();
-      formData.append("file", file);
-
-      const response = await fetch("/api/analysis/upload", {
-        method: "POST",
-        body: formData,
-      });
-      const payload = await response.json();
-
-      if (!response.ok) {
-        throw new Error(payload.error || "Analyse impossible.");
+      for (const fileItem of files) {
+        const formData = new FormData();
+        formData.append("file", fileItem);
+        const response = await fetch("/api/analysis/upload", {
+          method: "POST",
+          body: formData,
+        });
+        const payload = await response.json();
+        if (!response.ok) {
+          throw new Error(payload.error || "Analyse impossible.");
+        }
+        lastResult = payload.result;
+        combinedLogs += payload.logs ? payload.logs + "\n" : "";
       }
-
-      setResult(payload.result);
-      setLogs(payload.logs || "");
+      setResult(lastResult);
+      setLogs(combinedLogs);
     } catch (err: any) {
       setError(err.message);
     } finally {
@@ -105,16 +107,17 @@ export default function AdvancedAnalysisPage() {
           <label className="flex min-h-36 cursor-pointer flex-col items-center justify-center rounded-lg border border-dashed border-slate-700 bg-slate-950/50 px-4 py-8 text-center transition hover:border-violet-500/70">
             <Upload className="mb-3 h-8 w-8 text-slate-400" />
             <span className="text-sm font-semibold text-white">
-              {file ? file.name : "Choisir un fichier .json"}
+              {files.length > 0 ? `${files.length} fichier(s) sélectionné(s)` : "Choisir des fichiers .json"}
             </span>
             <span className="mt-1 text-xs text-slate-500">
-              {file ? `${Math.ceil(file.size / 1024)} KB` : "Le fichier sera analyse cote serveur"}
+              {files.length > 0 ? `${files.reduce((sum, f) => sum + f.size, 0) / 1024 | 0} KB total` : "Les fichiers seront analysés côté serveur"}
             </span>
             <input
               type="file"
               accept="application/json,.json"
+              multiple
               className="hidden"
-              onChange={(event) => setFile(event.target.files?.[0] || null)}
+              onChange={(event) => setFiles(event.target.files ? Array.from(event.target.files) : [])}
             />
           </label>
 

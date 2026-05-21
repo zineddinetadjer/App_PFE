@@ -37,20 +37,23 @@ export default function DashboardPage() {
 
   // Charger les projets au montage du composant
   useEffect(() => {
-    fetchProjects();
+    const params = new URLSearchParams(window.location.search);
+    const projectIdParam = params.get("projectId");
+    fetchProjects(projectIdParam);
   }, []);
 
   // Récupère la liste de tous les projets de veille depuis l'API
-  const fetchProjects = async () => {
+  const fetchProjects = async (preselectedId?: string | null) => {
     try {
       const res = await fetch("/api/projects");
       const data = await res.json();
       if (Array.isArray(data)) {
         setProjects(data);
         if (data.length > 0) {
-          // Sélectionne par défaut le premier projet
-          setSelectedProject(data[0]);
-          fetchProjectDetail(data[0].id);
+          // Sélectionne le projet demandé ou par défaut le premier projet
+          const activeProj = (preselectedId && data.find(p => p.id === preselectedId)) || data[0];
+          setSelectedProject(activeProj);
+          fetchProjectDetail(activeProj.id);
         } else {
           setLoading(false);
         }
@@ -255,6 +258,7 @@ export default function DashboardPage() {
             <div className="rounded-xl border border-slate-900 bg-slate-900/40 p-6 lg:col-span-2">
               <h3 className="text-lg font-bold text-white mb-4">Volume au fil du temps</h3>
               <div className="h-80">
+{timelineData.length > 0 ? (
                 <ResponsiveContainer width="100%" height="100%">
                   <AreaChart data={timelineData}>
                     <defs>
@@ -272,6 +276,9 @@ export default function DashboardPage() {
                     <Area type="monotone" dataKey="mentions" stroke="#8b5cf6" strokeWidth={2} fillOpacity={1} fill="url(#colorMentions)" />
                   </AreaChart>
                 </ResponsiveContainer>
+              ) : (
+                <div className="flex h-full items-center justify-center text-slate-500">Aucune donnée temporelle</div>
+              )}
               </div>
             </div>
 
